@@ -129,16 +129,17 @@ function! miniyank#cycle(dir) abort
     end
     if a:dir > 0 " forward
       if s:pos+a:dir >= len(s:pastelist)
-          echoerr "miniyank: no more items!"
-          return
+          let s:pos = 0
+      else
+          let s:pos += a:dir
       endif
     elseif a:dir < 0 " backward
       if s:pos+a:dir < 0
-          echoerr "miniyank: no previous items!"
-          return
+          let s:pos = len(s:pastelist) - 1
+      else
+          let s:pos += a:dir
       endif
     end
-    let s:pos += a:dir
     silent undo
     call miniyank#do_putlist()
 endfunction
